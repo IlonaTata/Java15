@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Comparator;
 
 public class TicketManager {
 
@@ -25,6 +26,24 @@ public class TicketManager {
         Arrays.sort(result);
         return result;
     }
+    public Ticket[] findAll1(String departureAirport, String arrivalAirport, Comparator<Ticket> comparator) {
+        Ticket[] result = new Ticket[0];
+        for (Ticket type : repo.findAll()) {
+            if (type.getArrivalAirport().contains(arrivalAirport) && type.getDepartureAirport().contains(departureAirport)) {
+
+                Ticket[] tmp = new Ticket[result.length + 1];
+                for (int i = 0; i < result.length; i++) {
+                    tmp[i] = result[i];
+                }
+                tmp[tmp.length - 1] = type;
+
+                result = tmp;
+            }
+        }
+        Arrays.sort(result, comparator);
+        return result;
+    }
+
 }
 
 

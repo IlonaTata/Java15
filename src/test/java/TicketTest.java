@@ -6,7 +6,8 @@ import java.util.Arrays;
 public class TicketTest {
     Ticket type1 = new Ticket(1, 1299, "SVO", "KZN", 95);
     Ticket type2 = new Ticket(2, 1299, "VKO", "KZN", 95);
-    Ticket type3 = new Ticket(3, 1199, "VKO", "KZN", 95);
+    Ticket type3 = new Ticket(3, 1199, "VKO", "KZN", 85);
+    Ticket type4 = new Ticket(4, 999, "VKO", "KZN", 55);
     TicketRepository repo = new TicketRepository();
     TicketManager manager = new TicketManager(repo);
 
@@ -75,6 +76,18 @@ public class TicketTest {
         Ticket[] actual = manager.findAll("LED", "KZN");
         Assertions.assertArrayEquals(expected, actual);
     }
-
+    @Test
+    public void shouldAddTicketByAirport1() {
+        repo.add(type1);
+        repo.add(type2);
+        repo.add(type3);
+        repo.add(type4);
+        repo.findAll();
+        TicketByPriceAscComparator fasterFlight=new TicketByPriceAscComparator();
+        manager.findAll1("VKO", "KZN",fasterFlight);
+        Ticket[] expected = {type4,type3, type2};
+        Ticket[] actual = manager.findAll1("VKO", "KZN",fasterFlight);
+        Assertions.assertArrayEquals(expected, actual);
+    }
 
 }
